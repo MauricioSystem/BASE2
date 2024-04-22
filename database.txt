@@ -1,0 +1,90 @@
+-- Crear tabla Estudiantes
+CREATE TABLE Estudiantes (
+    id_estudiante INT PRIMARY KEY,
+    nombre_completo VARCHAR(200),
+    fecha_nacimiento DATE,
+    carrera VARCHAR(100)
+    -- Otros campos según sea necesario
+);
+
+-- Crear tabla Materias
+CREATE TABLE Materias (
+    id_materia INT PRIMARY KEY ,
+    nombre_materia VARCHAR(100),
+    numero_creditos INT
+    -- Otros campos según sea necesario
+);
+
+-- Crear tabla Notas
+CREATE TABLE Notas (
+    id_nota INT PRIMARY KEY ,
+    id_estudiante INT,
+    id_materia INT,
+    nota DECIMAL(4,2),
+    FOREIGN KEY (id_estudiante) REFERENCES Estudiantes(id_estudiante),
+    FOREIGN KEY (id_materia) REFERENCES Materias(id_materia)
+    -- Otros campos según sea necesario
+);
+
+
+ALTER TABLE Notas ADD CONSTRAINT fk_materia FOREIGN KEY (id_materia) REFERENCES Materias(id_materia);
+ALTER TABLE Notas ADD CONSTRAINT fk_estudiante FOREIGN KEY (id_estudiante) REFERENCES Estudiantes(id_estudiante);
+ALTER TABLE Materias ADD CONSTRAINT fk_estudiante FOREIGN KEY (id_estudiante) REFERENCES Estudiantes(id_estudiante);
+
+
+
+select *from estudiantes e  ;
+select *from notas n ;
+select * from materias ;
+
+
+DELETE FROM estudiantes ;
+DELETE FROM notas ;
+DELETE FROM materias ;
+
+
+-- Insertar datos de estudiantes
+INSERT INTO Estudiantes (id_estudiante, nombre_completo, fecha_nacimiento, carrera)
+VALUES
+    (1, 'Mauricio Paz', '2000-05-15', 'Ingeniería Informática'),
+    (2, 'Max Vertapem', '2001-08-20', 'Ingeniería Informática'),
+    (3, 'Checo Perez', '1999-11-10', 'Ingeniería Informática'),
+    (4, 'luwis hamilton', '2000-05-15', 'Ingeniería Informática'),
+    (5, 'Carlos sainz', '2002-02-28', 'Ingeniería Informática');
+
+-- Insertar datos de materias
+INSERT INTO Materias (id_materia, nombre_materia, numero_creditos)
+VALUES
+    (1, 'Introducción a la Programación', 4),
+    (2, 'Estructuras de Datos', 4),
+    (3, 'Bases de Datos', 4),
+    (4, 'Ingeniería de Software', 4),
+    (5, 'Análisis y Diseño de Algoritmos', 4);
+
+
+
+-- Insertar datos de notas
+INSERT INTO Notas (id_nota, id_estudiante, id_materia, nota)
+VALUES
+    (1, 1, 1, 10.0),
+    (2, 2, 2, 10.0),
+    (3, 3, 3, 9.2),
+    (4, 4, 4, 6.8),
+    (5, 1, 2, 10.0),
+    (6, 2, 1, 9.0),
+    (7, 3, 2, 7.2),
+    (8, 3, 1, 9.2),
+    (9, 4, 3, 7.8),
+    (10, 5, 4, 8.0);
+
+
+
+SELECT 
+    e.id_estudiante,
+    e.nombre_completo AS Nombre_Completo,
+    e.carrera AS Carrera,
+    m.nombre_materia AS Materia,
+    n.nota AS Nota
+FROM  Estudiantes e
+JOIN  Notas n ON e.id_estudiante = n.id_estudiante
+JOIn Materias m ON n.id_materia = m.id_materia;
